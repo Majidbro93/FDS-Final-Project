@@ -630,7 +630,7 @@ elif menu == "Data Process":
     plt.xticks(rotation=45)
     st.pyplot(fig)
 
-    st.write("### Principle Component Analsys")
+    st.write("### Principle Component Analysis")
     st.write("""In this section, we want to apply more sophisticated analysis on our dataset to get more information that how each component in our datset can contribute to the final
              results and conclusions. Principle Component Analysis (PCA) is one of the famous techniques for dimensionality reduction that
               transforms our dataset into a set of linearly uncorrelated variables (principal components) while retaining most of the variance in the data. In this regard, by using this method we can
@@ -839,7 +839,7 @@ elif menu == "Data Process":
 
     data = load_data()
     st.write("#### Movie Sentiment Analysis:")
-    st.write("""In nelow graph, we see that the most common bigrams (two words together) in the overview of the top ranked movies. One can see they are very wide vriety of movies 
+    st.write("""In the below graph, we see that the most common bigrams (two words together) in the overview of the top ranked movies. One can see they are very wide vriety of movies 
     with different topics appeared in here. So, we can get the general idea of what are main topics in the overviews of the movies. """)
     # Streamlit App Layout
     #st.title("N-Gram Analysis (Bigrams) in Movie Overviews")
@@ -1503,12 +1503,22 @@ elif menu == "Machine Learning For Prediction":
     mse_imdb = mean_squared_error(y_test_imdb, y_pred_imdb)
     r2_imdb = r2_score(y_test_imdb, y_pred_imdb)
 
+
+    st.title("Gross Revenue Prediction for Movie Companies")
+
     # Streamlit App
     st.write("### Machine Learning-Based Movie Success Prediction System:")
     st.write("""In this section, we introduce our new prediction system designed to determine the potential success of your movie in the future.
         Using this part of the application, you can select your movie's genre and certificate to predict its likelihood of success. Our model works by normalizing the IMDb score and gross revenue of movies. 
         We then implement a Random Forest machine learning algorithm to predict the gross revenue and IMDB rating of the movie in the future. This feature provides movie companies and industries with an initial estimate
         to assess whether a movie is worth investing in. Additionally, you can adjust the IMDB ratings to specific aspects for the people's opinion about the film. Our evaluation system works with a very small error as you see below.""") 
+    
+    if st.button("Model Explanation"):
+
+        st.write("""For the Random Forest model, we set random_state=42 to ensure that the results are reproducible each time.
+                  Using n_estimators=40 limits the number of decision trees, balancing performance and training time.
+                  A max_depth=3 restricts the complexity of each tree to prevent overfitting and maintain simpler models.""")
+
 
     st.write(f"Model Performance: Gross Revenue - MSE = {mse_gross:.2f}, R² = {r2_gross:.2f}")
     st.write(f"Model Performance: IMDb Rating - MSE = {mse_imdb:.2f}, R² = {r2_imdb:.2f}")
@@ -1546,10 +1556,18 @@ elif menu == "Machine Learning For Prediction":
     # Load the dataset
     data = pd.read_csv('imdb_1000_final_with_correct_certificate.csv')
 
+    
+
     st.write("### Prediction for the average gross revenue over the years:")
     st.write("""In this section, we performed an autoregressive analysis to predict the genre and certificate classifications for movies over the next five years. This allows us to forecast how
                 the movie industry might evolve in terms of specific genres and certifications in the near future. By
                 understanding these trends, you can gain a clearer perspective on the types of movies that are likely to thrive and make more informed decisions about potential investments in the industry.""")
+    
+    if st.button("Model Explanation",key='kahsgdt'):
+
+        st.write("""The AutoReg model used in this part can predict historical average gross revenue values (up to three previous years or lag of 3) to predict future revenues. By fitting this model to the filtered and grouped time series data, it identifies how each year’s revenue depends on prior years. 
+                 This allows the model to generate forecasts for the next five years, providing insight into potential future trends for selected certificates or genres.""")
+
 
 
     # Ensure Released_Year, Gross, Certificate, and Genre_1 columns are properly formatted
@@ -1718,6 +1736,7 @@ elif menu == "Machine Learning For Prediction":
 
     # Step 4: Streamlit App
     #st.title("Movie Recommendation System")
+    st.title("Movie Recommendation System for Movie Lovers")
     st.write("### Movie Recommendation System based on words come to your mind:")
     st.write("""In this part of the app, we use the overviews of the top 1000 movies from IMDb to recommend movie titles based on your mood and the keywords you input into our
      machine learning model. You can enter words that come to mind, and our model will suggest movie titles along with a relevance score. We believe this feature can be useful for 
@@ -1725,6 +1744,13 @@ elif menu == "Machine Learning For Prediction":
 
 We have used the Random Forest technique to train our model, and we hope this feature can meet our users' needs by helping them find the movies that align with the topics they are
  interested in watching.""")
+    if st.button("Model Explanation",key='kahsgdt1'):
+
+        st.write("""We set random_state=42 to ensure consistent, reproducible results each time the model is run.
+                  The n_estimators=100 option specifies the number of individual decision trees, balancing accuracy and computational cost.
+                     By default, the random forest classifier uses features like bootstrap sampling and random feature selection at splits 
+                 to maintain model diversity and reduce overfitting.""")
+
 
     st.write("Find movies similar to your query based on descriptions and genres!")
 
@@ -1819,12 +1845,17 @@ We have used the Random Forest technique to train our model, and we hope this fe
                 st.warning("Poster image not available.")
 
     # Step 5: Streamlit App
-    st.title("Movie Recommendation System")
+    
     st.write("### Movie Recommendation System based on titles:")
     st.write("""In this section, we help users and movie lovers discover similar movie titles from the top-ranked movies on IMDb. Users can select a movie title from the top
      1000 list on IMDb and find similar titles based on factors such as genre, director, and the actors who starred in the movies. One interesting feature of this section is that it also displays the covers of similar movies, giving users a better sense of the recommended films. Additionally, we provide users with 
      a similarity percentage based on the selected movie title from our dropdown menu. To ensure accurate recommendations, we have used the Cosine similarity function to find the best matches 
     for your preferences.""")
+    if st.button("Model Explanation",key='kahsgdt1212'):
+
+        st.write("""Our model creates a “Combined_Features” string for each movie, capturing genres, director, and star actors.
+                  Using TF-IDF vectorization and cosine similarity, it measures how closely each movie’s features match a selected movie.
+                Finally, it returns the top similar titles based on these similarity scores.""")
     st.write("Find similar movies to your favorite one!")
 
     # Dropdown menu for selecting a movie
