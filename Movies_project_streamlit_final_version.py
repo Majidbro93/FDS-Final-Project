@@ -813,7 +813,7 @@ elif menu == "Data Process":
     )
 
     # Plot histogram with KDE using Seaborn
-    st.subheader(f"Distribution of {x_axis} with KDE Overlay")
+    st.subheader(f"Distribution of {x_axis.replace("_", " ")} with KDE Overlay")
 
     fig, ax = plt.subplots(figsize=(10, 6))
     sns.histplot(

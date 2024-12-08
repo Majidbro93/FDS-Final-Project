@@ -3,7 +3,7 @@
 
 ## Project Overview
 
- This project is an analysis and visualization of the IMDb Top 1000 movies dataset, which contains various details about some of the most popular movies of all time. The analysis focuses on key factors like gross income, IMDb ratings, Metascores, movie certificates, and genres. By using data science techniques, this project provides insights into trends in the movie industry and aims to help production companies make better decisions based on audience preferences and revenue potential. Moreover, in terms of the technical data process point of view, this project used different imputation techniques for finding the missing values in numerical and categorical variables in the dataset.
+ This project is an analysis and visualization of the IMDb Top 1000 movies dataset, which contains various details about some of the most popular movies of all time. The analysis focuses on key factors like gross income, IMDb ratings, Metascores, movie certificates, and genres. By using data science techniques, this project provides insights into trends in the movie industry and aims to help production companies make better decisions based on audience preferences and revenue potential. Moreover, in terms of the technical data process point of view, this project used different imputation techniques for finding the missing values in numerical and categorical variables in the dataset. Also, this project shows lots of interactive plots for visualization and provide users with interesting results and information about the movie industry. Finally, different machine learning algorithms implemeneted for prediction and recommendation purposes. 
 
 ### Objectives
 - Conduct Initial Data Analysis (IDA) and Exploratory Data Analysis (EDA).
@@ -67,7 +67,9 @@ pip install -r requirements.txt
 - Sentiment analysis of movie overviews.
 
 ### Machine Learning
-- Movie recommendation system based on overview keywords.
+- Movie success prediction based on the genere and certificate.
+- Movie industry gross revenue prediction based on the genere and certificate.
+- Movie recommendation system based on overview and name of movies keywords.
 - Prediction of missing values in categorical columns using Random Forest.
 
 ### Interactive Features
