@@ -1731,7 +1731,7 @@ We have used the Random Forest technique to train our model, and we hope this fe
     st.write("Find movies similar to your query based on descriptions and genres!")
 
     # User Input
-    query = st.text_input("Enter a query (e.g., 'hero saves world')", "")
+    query = st.text_input("Enter a query (e.g., 'Love is good')", "")
 
     if st.button("Get Recommendations"):
         if query.strip():
