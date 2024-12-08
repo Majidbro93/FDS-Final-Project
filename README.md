@@ -68,7 +68,7 @@ pip install -r requirements.txt
 
 ### Machine Learning
 - Movie success prediction based on the genere and certificate.
-- Movie industry gross revenue prediction based on the genere and certificate.
+- Movie industry gross revenue prediction based on the certificate of the movies.
 - Movie recommendation system based on overview and name of movies keywords.
 - Prediction of missing values in categorical columns using Random Forest.
 

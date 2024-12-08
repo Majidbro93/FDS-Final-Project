@@ -1556,50 +1556,36 @@ elif menu == "Machine Learning For Prediction":
     # Load the dataset
     data = pd.read_csv('imdb_1000_final_with_correct_certificate.csv')
 
-    
-
     st.write("### Prediction for the average gross revenue over the years:")
-    st.write("""In this section, we performed an autoregressive analysis to predict the genre and certificate classifications for movies over the next five years. This allows us to forecast how
-                the movie industry might evolve in terms of specific genres and certifications in the near future. By
-                understanding these trends, you can gain a clearer perspective on the types of movies that are likely to thrive and make more informed decisions about potential investments in the industry.""")
+    st.write("""In this section, we performed an autoregressive analysis to predict the average gross revenue for different movie certificates over the next five years. This allows us to forecast trends in the movie industry based on certification categories.""")
+
+    if st.button("Model Explanation", key='kahsgdt'):
+        st.write("""The AutoReg model used in this part predicts historical average gross revenue values (up to three previous years or lag of 3) to predict future revenues. By fitting this model to the filtered and grouped time series data, it identifies how each year’s revenue depends on prior years. 
+                    This allows the model to generate forecasts for the next five years, providing insight into potential future trends for selected certificates.""")
+
     
-    if st.button("Model Explanation",key='kahsgdt'):
-
-        st.write("""The AutoReg model used in this part can predict historical average gross revenue values (up to three previous years or lag of 3) to predict future revenues. By fitting this model to the filtered and grouped time series data, it identifies how each year’s revenue depends on prior years. 
-                 This allows the model to generate forecasts for the next five years, providing insight into potential future trends for selected certificates or genres.""")
-
-
-
-    # Ensure Released_Year, Gross, Certificate, and Genre_1 columns are properly formatted
     data['Released_Year'] = pd.to_numeric(data['Released_Year'], errors='coerce')
     data['Gross'] = pd.to_numeric(data['Gross'], errors='coerce')
 
-    # Drop rows with missing or invalid data in the relevant columns
-    data_cleaned = data.dropna(subset=['Released_Year', 'Gross', 'Certificate', 'Genre_1'])
+    
+    data_cleaned = data.dropna(subset=['Released_Year', 'Gross', 'Certificate'])
 
-    # Group by Certificate and Released_Year, and calculate average gross revenue
+    
     gross_by_certificate = (
         data_cleaned.groupby(['Certificate', 'Released_Year'])['Gross']
         .mean()
         .reset_index()
     )
 
-    # Group by Genre_1 and Released_Year, and calculate average gross revenue
-    gross_by_genre = (
-        data_cleaned.groupby(['Genre_1', 'Released_Year'])['Gross']
-        .mean()
-        .reset_index()
-    )
-
     # Function to perform autoregression and generate interactive Plotly graph
-    def plot_autoregression(data, group_name, group_value):
-        # Filter data for the selected group
-        group_data = data[data[group_name] == group_value]
+    def plot_autoregression(data, certificate):
+        # Filter data for the selected certificate
+        group_data = data[data['Certificate'] == certificate]
         
         # Sort data by year
         group_data = group_data.sort_values(by='Released_Year')
         
-        # Prepare the time series for autoregression
+        
         years = group_data['Released_Year'].values
         gross_revenue = group_data['Gross'].values
         
@@ -1617,7 +1603,7 @@ elif menu == "Machine Learning For Prediction":
         # Create interactive plot with Plotly
         fig = go.Figure()
 
-        # Add actual data to the plot
+        
         fig.add_trace(go.Scatter(
             x=group_data['Released_Year'],
             y=group_data['Gross'],
@@ -1626,7 +1612,7 @@ elif menu == "Machine Learning For Prediction":
             line=dict(color='blue')
         ))
 
-        # Add predicted data to the plot
+        
         fig.add_trace(go.Scatter(
             x=future_data['Released_Year'],
             y=future_data['Gross'],
@@ -1635,9 +1621,9 @@ elif menu == "Machine Learning For Prediction":
             line=dict(dash='dash', color='orange')
         ))
 
-        # Update layout for aesthetics
+        
         fig.update_layout(
-            title=f'Average Gross Revenue with Predictions for {group_name}: {group_value}',
+            title=f'Average Gross Revenue with Predictions for Certificate: {certificate}',
             xaxis_title='Year',
             yaxis_title='Average Gross Revenue',
             legend=dict(x=0.1, y=1),
@@ -1645,27 +1631,17 @@ elif menu == "Machine Learning For Prediction":
             hovermode='x'
         )
 
-        # Render the plot in Streamlit
+        
         st.plotly_chart(fig)
 
-    # Streamlit app layout
     
-    # Dropdown menus for user selection
     certificate_options = gross_by_certificate['Certificate'].unique()
-    genre_options = gross_by_genre['Genre_1'].unique()
-
     user_certificate = st.selectbox("Select a Certificate:", certificate_options)
-    user_genre = st.selectbox("Select a Genre:", genre_options)
 
     # Plot for Certificate
     if user_certificate in certificate_options:
-        #st.subheader(f"Predictions for Certificate: {user_certificate}")
-        plot_autoregression(gross_by_certificate, 'Certificate', user_certificate)
+        plot_autoregression(gross_by_certificate, user_certificate)
 
-    # Plot for Genre_1
-    if user_genre in genre_options:
-        #st.subheader(f"Predictions for Genre: {user_genre}")
-        plot_autoregression(gross_by_genre, 'Genre_1', user_genre)
 
 
 ###############################################
